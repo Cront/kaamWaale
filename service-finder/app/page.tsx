@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Layout from "./components/layout";
+import React from "react";
 
 export default function Home() {
   return (
@@ -16,7 +17,7 @@ export default function Home() {
             href="/find-service"
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            I'm looking for a service
+            {"I'm looking for a service"}
           </Link>
 
           {/* Button for users wanting to provide a service */}

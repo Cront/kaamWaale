@@ -6,6 +6,7 @@ import Layout from "../components/layout";
 import { useState } from "react";
 import ContactModal from "../contact-page/page";
 import Link from "next/link";
+import React from "react";
 
 // Interface defining the structure of a service provider object
 export interface ServiceProvider {

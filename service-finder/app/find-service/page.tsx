@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Layout from "../components/layout";
+import React from "react";
 
 export default function FindService() {
   // State for form inputs
@@ -25,7 +26,7 @@ export default function FindService() {
           {/* Service type selection */}
           <div className="mb-4">
             <label htmlFor="serviceType" className="block mb-2 text-left">
-              I'm looking for a:
+              {"I'm looking for a:"}
             </label>
             <select
               id="serviceType"
