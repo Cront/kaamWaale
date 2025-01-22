@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Layout from "../components/layout";
 import { useState } from "react";
 import ContactModal from "../contact-page/page";
+import Link from "next/link";
 
 // Interface defining the structure of a service provider object
 export interface ServiceProvider {
@@ -15,6 +16,7 @@ export interface ServiceProvider {
   rating: number;
   profilePicture: string;
   phoneNumber: string;
+  numberOfReviews: number;
 }
 
 // Mock function to simulate fetching data (replace with an actual API call in production)
@@ -31,6 +33,7 @@ const fetchServiceProviders = (
       rating: 8.1,
       profilePicture: "hasanPfp.png",
       phoneNumber: "(510)-766-9811",
+      numberOfReviews: 55,
     },
     {
       id: 2,
@@ -40,6 +43,7 @@ const fetchServiceProviders = (
       rating: 9.4,
       profilePicture: "filzaBajiPfp.png",
       phoneNumber: "(309)-391-4247",
+      numberOfReviews: 197,
     },
     {
       id: 3,
@@ -49,6 +53,7 @@ const fetchServiceProviders = (
       rating: 2.3,
       profilePicture: "chotoBhaiPfp.png",
       phoneNumber: "(309)-391-4356",
+      numberOfReviews: 88,
     },
   ];
 };
@@ -93,7 +98,15 @@ export default function Results() {
             <h2 className="text-xl font-semibold mb-2">{provider.name}</h2>
             <p>Type: {provider.type}</p>
             <p>Location: {provider.location}</p>
-            <p>Rating: {provider.rating}/10</p>
+            <p>
+              Rating: {provider.rating}/10{" "}
+              <Link
+                href={""} // ADJUST LINK TO REVIEWS PAGE
+                className="text-blue-600 underline hover:text-blue-800"
+              >
+                ({provider.numberOfReviews} reviews)
+              </Link>
+            </p>
             {/* Contact button */}
             <button
               onClick={() => handleContact(provider)}
