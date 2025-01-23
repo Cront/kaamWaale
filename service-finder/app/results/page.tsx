@@ -102,7 +102,7 @@ export default function Results() {
             <p>
               Rating: {provider.rating}/10{" "}
               <Link
-                href={""} // ADJUST LINK TO REVIEWS PAGE
+                href={"../reviews-page/page"} // ADJUST LINK TO REVIEWS PAGE
                 className="text-blue-600 underline hover:text-blue-800"
               >
                 ({provider.numberOfReviews} reviews)
