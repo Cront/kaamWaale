@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Layout from "../components/layout";
 import { useState } from "react";
 import ContactModal from "../contact-page/page";
-import Link from "next/link";
+import ReviewModal from "../reviews-page/page";
 import React from "react";
 
 // Interface defining the structure of a service provider object
@@ -18,6 +18,16 @@ export interface ServiceProvider {
   profilePicture: string;
   phoneNumber: string;
   numberOfReviews: number;
+}
+
+// Define the Reviews interface
+export interface Reviews {
+  id: number; // match ServiceProvider id
+  reviewerName: string;
+  rating: number;
+  numberOfReviewsGiven: number;
+  profilePicture: string;
+  comment: string;
 }
 
 // Mock function to simulate fetching data (replace with an actual API call in production)
@@ -59,6 +69,124 @@ const fetchServiceProviders = (
   ];
 };
 
+// Fetch reviews based on the service provider's ID
+const fetchReviews = (serviceProviderId: number): Reviews[] => {
+  const allReviews: Reviews[] = [
+    // Filza Abidi's Reviews (Average Rating: 9.1)
+    {
+      id: 2,
+      profilePicture: "user1.png",
+      reviewerName: "Alice Johnson",
+      numberOfReviewsGiven: 18,
+      comment: "Fantastic service! Highly professional.",
+      rating: 10,
+    },
+    {
+      id: 2,
+      profilePicture: "user2.png",
+      reviewerName: "Bob Smith",
+      numberOfReviewsGiven: 12,
+      comment: "Very courteous and reliable.",
+      rating: 9,
+    },
+    {
+      id: 2,
+      profilePicture: "user3.png",
+      reviewerName: "Catherine Lee",
+      numberOfReviewsGiven: 8,
+      comment: "Would absolutely recommend her.",
+      rating: 10,
+    },
+    {
+      id: 2,
+      profilePicture: "user4.png",
+      reviewerName: "David Brown",
+      numberOfReviewsGiven: 5,
+      comment: "Great experience but room for improvement in communication.",
+      rating: 8,
+    },
+    {
+      id: 2,
+      profilePicture: "user5.png",
+      reviewerName: "Evelyn Wright",
+      numberOfReviewsGiven: 20,
+      comment: "Exceptional service! I’m very satisfied.",
+      rating: 9,
+    },
+
+    // Hasan Abidi's Reviews (Average Rating: 8.2)
+    {
+      id: 1,
+      profilePicture: "user6.png",
+      reviewerName: "Franklin Moore",
+      numberOfReviewsGiven: 10,
+      comment: "Very professional and dependable.",
+      rating: 9,
+    },
+    {
+      id: 1,
+      profilePicture: "user7.png",
+      reviewerName: "Grace Hill",
+      numberOfReviewsGiven: 14,
+      comment: "Good experience, but slightly delayed response.",
+      rating: 8,
+    },
+    {
+      id: 1,
+      profilePicture: "user8.png",
+      reviewerName: "Henry Taylor",
+      numberOfReviewsGiven: 7,
+      comment: "Helpful and efficient service.",
+      rating: 8,
+    },
+    {
+      id: 1,
+      profilePicture: "user9.png",
+      reviewerName: "Isabella Green",
+      numberOfReviewsGiven: 5,
+      comment: "Really great! Highly recommend.",
+      rating: 8,
+    },
+
+    // Syed Abidi's Reviews (Average Rating: 2.3)
+    {
+      id: 3,
+      profilePicture: "user10.png",
+      reviewerName: "Jack White",
+      numberOfReviewsGiven: 2,
+      comment: "Not satisfied. Poor communication.",
+      rating: 2,
+    },
+    {
+      id: 3,
+      profilePicture: "user11.png",
+      reviewerName: "Karen Black",
+      numberOfReviewsGiven: 3,
+      comment: "Service quality was below expectations.",
+      rating: 3,
+    },
+    {
+      id: 3,
+      profilePicture: "user12.png",
+      reviewerName: "Leo Martinez",
+      numberOfReviewsGiven: 1,
+      comment: "Disappointing experience overall.",
+      rating: 2,
+    },
+    {
+      id: 3,
+      profilePicture: "user13.png",
+      reviewerName: "Mia Lopez",
+      numberOfReviewsGiven: 5,
+      comment: "Needs a lot of improvement to meet basic standards.",
+      rating: 2,
+    },
+  ];
+
+  // Filter reviews matching the serviceProviderId
+  return allReviews.filter((review) => review.id === serviceProviderId);
+};
+
 export default function Results() {
   // Extract search parameters from the URL
   const searchParams = useSearchParams();
@@ -69,15 +197,21 @@ export default function Results() {
   const serviceProviders = fetchServiceProviders(type, location);
 
   // State for modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   // State for the currently selected provider
   const [selectedProvider, setSelectedProvider] =
     useState<ServiceProvider | null>(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   // Function to handle "Contact" button click
   const handleContact = (provider: ServiceProvider) => {
     setSelectedProvider(provider); // Set the selected provider
-    setIsModalOpen(true); // Open the modal
+    setIsContactModalOpen(true); // Open the modal
+  };
+
+  const handleReviews = (provider: ServiceProvider) => {
+    setSelectedProvider(provider);
+    setIsReviewModalOpen(true);
   };
 
   return (
@@ -101,12 +235,13 @@ export default function Results() {
             <p>Location: {provider.location}</p>
             <p>
               Rating: {provider.rating}/10{" "}
-              <Link
-                href={"../reviews-page/page"} // ADJUST LINK TO REVIEWS PAGE
+              <span
+                onClick={() => handleReviews(provider)}
+                // href={"/reviews-page?user=${id}"} // ADJUST LINK TO REVIEWS PAGE
                 className="text-blue-600 underline hover:text-blue-800"
               >
                 ({provider.numberOfReviews} reviews)
-              </Link>
+              </span>
             </p>
             {/* Contact button */}
             <button
@@ -118,12 +253,20 @@ export default function Results() {
           </div>
         ))}
       </div>
-      {/* Render the contact modal */}
-      <ContactModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        provider={selectedProvider}
-      />
+      {isContactModalOpen && selectedProvider && (
+        <ContactModal
+          isOpen={isContactModalOpen}
+          onClose={() => setIsContactModalOpen(false)}
+          provider={selectedProvider}
+        />
+      )}
+      {isReviewModalOpen && selectedProvider && (
+        <ReviewModal
+          isOpen={isReviewModalOpen}
+          onClose={() => setIsReviewModalOpen(false)}
+          reviews={fetchReviews(selectedProvider.id)}
+        />
+      )}
     </Layout>
   );
 }
