@@ -44,7 +44,7 @@ const fetchServiceProviders = (
       rating: 8.1,
       profilePicture: "hasanPfp.png",
       phoneNumber: "(510)-766-9811",
-      numberOfReviews: 55,
+      numberOfReviews: 4,
     },
     {
       id: 2,
@@ -54,7 +54,7 @@ const fetchServiceProviders = (
       rating: 9.4,
       profilePicture: "filzaBajiPfp.png",
       phoneNumber: "(309)-391-4247",
-      numberOfReviews: 197,
+      numberOfReviews: 5,
     },
     {
       id: 3,
@@ -64,7 +64,7 @@ const fetchServiceProviders = (
       rating: 2.3,
       profilePicture: "chotoBhaiPfp.png",
       phoneNumber: "(309)-391-4356",
-      numberOfReviews: 88,
+      numberOfReviews: 4,
     },
   ];
 };
@@ -84,7 +84,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 2,
       profilePicture: "user2.png",
-      reviewerName: "Bob Smith",
+      reviewerName: "Rayfay",
       numberOfReviewsGiven: 12,
       comment: "Very courteous and reliable.",
       rating: 9,
@@ -92,7 +92,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 2,
       profilePicture: "user3.png",
-      reviewerName: "Catherine Lee",
+      reviewerName: "Wafa",
       numberOfReviewsGiven: 8,
       comment: "Would absolutely recommend her.",
       rating: 10,
@@ -100,7 +100,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 2,
       profilePicture: "user4.png",
-      reviewerName: "David Brown",
+      reviewerName: "Shanwaz Shah",
       numberOfReviewsGiven: 5,
       comment: "Great experience but room for improvement in communication.",
       rating: 8,
@@ -108,7 +108,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 2,
       profilePicture: "user5.png",
-      reviewerName: "Evelyn Wright",
+      reviewerName: "Chachi",
       numberOfReviewsGiven: 20,
       comment: "Exceptional service! I’m very satisfied.",
       rating: 9,
@@ -118,7 +118,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 1,
       profilePicture: "user6.png",
-      reviewerName: "Franklin Moore",
+      reviewerName: "Saalis",
       numberOfReviewsGiven: 10,
       comment: "Very professional and dependable.",
       rating: 9,
@@ -126,7 +126,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 1,
       profilePicture: "user7.png",
-      reviewerName: "Grace Hill",
+      reviewerName: "Salma Hayek",
       numberOfReviewsGiven: 14,
       comment: "Good experience, but slightly delayed response.",
       rating: 8,
@@ -134,7 +134,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 1,
       profilePicture: "user8.png",
-      reviewerName: "Henry Taylor",
+      reviewerName: "Chucky",
       numberOfReviewsGiven: 7,
       comment: "Helpful and efficient service.",
       rating: 8,
@@ -142,7 +142,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 1,
       profilePicture: "user9.png",
-      reviewerName: "Isabella Green",
+      reviewerName: "Muskan",
       numberOfReviewsGiven: 5,
       comment: "Really great! Highly recommend.",
       rating: 8,
@@ -152,7 +152,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 3,
       profilePicture: "user10.png",
-      reviewerName: "Jack White",
+      reviewerName: "Beyonce",
       numberOfReviewsGiven: 2,
       comment: "Not satisfied. Poor communication.",
       rating: 2,
@@ -160,7 +160,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 3,
       profilePicture: "user11.png",
-      reviewerName: "Karen Black",
+      reviewerName: "Bee Jaan",
       numberOfReviewsGiven: 3,
       comment: "Service quality was below expectations.",
       rating: 3,
@@ -168,7 +168,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 3,
       profilePicture: "user12.png",
-      reviewerName: "Leo Martinez",
+      reviewerName: "Urooj Bath-Amese",
       numberOfReviewsGiven: 1,
       comment: "Disappointing experience overall.",
       rating: 2,
@@ -176,7 +176,7 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
     {
       id: 3,
       profilePicture: "user13.png",
-      reviewerName: "Mia Lopez",
+      reviewerName: "Dejonte",
       numberOfReviewsGiven: 5,
       comment: "Needs a lot of improvement to meet basic standards.",
       rating: 2,
