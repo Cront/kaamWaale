@@ -191,7 +191,7 @@ export default function Results() {
   // Extract search parameters from the URL
   const searchParams = useSearchParams();
   const type = searchParams.get("type") || "";
-  const location = searchParams.get("location") || "";
+  const fullAddress = searchParams.get("fullAddress") || "";
 
   // Fetch mock service providers data based on type and location
   const serviceProviders = fetchServiceProviders(type, location);
@@ -217,7 +217,7 @@ export default function Results() {
   return (
     <Layout>
       <h1 className="text-3xl font-bold mb-4">
-        Results for {type || "all types"} in {location || "all locations"}
+        Results for {type || "types"} near {fullAddress || "location error"}
       </h1>
       {/* Display service providers in a grid layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
