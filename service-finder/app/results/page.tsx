@@ -194,7 +194,7 @@ export default function Results() {
   const fullAddress = searchParams.get("fullAddress") || "";
 
   // Fetch mock service providers data based on type and location
-  const serviceProviders = fetchServiceProviders(type, location);
+  const serviceProviders = fetchServiceProviders(type, fullAddress);
 
   // State for modal visibility
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
