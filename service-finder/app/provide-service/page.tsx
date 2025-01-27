@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {} from "../find-service/page";
+import { getLiveLocation } from "../../utils/locationUtils";
 import Layout from "../components/layout";
 import React from "react";
 
@@ -16,6 +16,15 @@ export default function ProvideService() {
   const [email, setEmail] = useState("");
   const [rate, setRate] = useState("");
   const router = useRouter();
+
+  const handleGetLiveLocation = async () => {
+    try {
+      const locationAddress = await getLiveLocation();
+      setAddress(locationAddress);
+    } catch (error) {
+      console.error("Error getting live location", error);
+    }
+  };
 
   // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
@@ -134,7 +143,7 @@ export default function ProvideService() {
 
           <button
             type="button"
-            onClick={() => getLiveLocation()}
+            onClick={() => handleGetLiveLocation()}
             className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 mb-2"
           >
             Get Live Location

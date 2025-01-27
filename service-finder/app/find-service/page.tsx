@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getLiveLocation } from "../../utils/locationUtils";
 import Layout from "../components/layout";
 import type React from "react";
 
@@ -17,45 +18,13 @@ export default function FindService() {
   // const [closestArea, setClosestArea] = useState("");
   const router = useRouter();
 
-  const getAddressFromCoordinates = async (latitude, longitude) => {
-    const apiKey = "AIzaSyDyezdJfN8YVgq52EaCOWVTNQg8cTYZM44";
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
-
+  const handleGetLiveLocation = async () => {
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.status === "OK") {
-        const address = data.results[0].formatted_address;
-        console.log("Formatted Address: ", address);
-        setAddress(address);
-        return address;
-      } else {
-        console.error("Error fetching address:", data.status);
-        alert("Couldn't fetch address. Please try again");
-      }
+      const locationAddress = await getLiveLocation();
+      setAddress(locationAddress);
     } catch (error) {
-      console.error("Error with fetch:", error);
-      alert("Failed to fetch address. Check your internet connection");
+      console.error("Error getting live location", error);
     }
-  };
-
-  const getLiveLocation = () => {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        console.log("Latitude", latitude, "Longitude", longitude);
-
-        const address = await getAddressFromCoordinates(latitude, longitude);
-        // alert(`Your current address is: ${address}`);
-      },
-      (error) => {
-        console.error("Unable to get location", error);
-        alert(
-          "Unable to retrieve location, please check your browswer permissions",
-        );
-      },
-    );
   };
 
   // Handle form submission
@@ -188,7 +157,7 @@ export default function FindService() {
           {/* Live location button */}
           <button
             type="button"
-            onClick={() => getLiveLocation()}
+            onClick={() => handleGetLiveLocation()}
             className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 mb-2"
           >
             Get Live Location
