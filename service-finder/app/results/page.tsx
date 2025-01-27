@@ -14,6 +14,7 @@ export interface ServiceProvider {
   name: string;
   type: string;
   location: string;
+  distance?: number; // DISTANCE FROM EMPLOYER TO EMPLOYEE, CALCULATE LATER
   rating: number;
   profilePicture: string;
   phoneNumber: string;
@@ -40,7 +41,7 @@ const fetchServiceProviders = (
       id: 1,
       name: "Hasan Abidi",
       type,
-      location,
+      location: "",
       rating: 8.1,
       profilePicture: "hasanPfp.png",
       phoneNumber: "(510)-766-9811",
@@ -217,7 +218,7 @@ export default function Results() {
   return (
     <Layout>
       <h1 className="text-3xl font-bold mb-4">
-        Results for {type || "types"} near {fullAddress || "location error"}
+        Results for {type || "types"}s near {fullAddress || "location error"}
       </h1>
       {/* Display service providers in a grid layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -232,7 +233,8 @@ export default function Results() {
             {/* Provider Details */}
             <h2 className="text-xl font-semibold mb-2">{provider.name}</h2>
             <p>Type: {provider.type}</p>
-            <p>Location: {provider.location}</p>
+            {/* CHANGE LATER TO GET THE DISTANCE FROM ADDRESS TO EMPLOYER */}
+            <p>Distance: {provider.distance}</p>
             <p>
               Rating: {provider.rating}/10{" "}
               <span

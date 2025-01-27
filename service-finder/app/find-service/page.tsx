@@ -47,7 +47,7 @@ export default function FindService() {
         console.log("Latitude", latitude, "Longitude", longitude);
 
         const address = await getAddressFromCoordinates(latitude, longitude);
-        alert(`Your current address is: ${address}`);
+        // alert(`Your current address is: ${address}`);
       },
       (error) => {
         console.error("Unable to get location", error);

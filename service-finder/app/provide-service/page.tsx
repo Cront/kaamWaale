@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {} from "../find-service/page";
 import Layout from "../components/layout";
 import React from "react";
 
 export default function ProvideService() {
   // State for form inputs
+  const [address, setAddress] = useState("");
   const [name, setName] = useState("");
   const [serviceType, setServiceType] = useState("");
   const [location, setLocation] = useState("");
@@ -71,15 +73,16 @@ export default function ProvideService() {
 
           {/* Location input */}
           <div className="mb-4">
-            <label htmlFor="location" className="block mb-2 text-left">
-              Location:
+            <label htmlFor="fullAddress" className="block mb-2 text-left">
+              Full address (enter manually or click Get Live Location):
             </label>
             <input
               type="text"
-              id="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              id="fullAddress"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               className="w-full p-2 border rounded"
+              placeholder="Full address"
               required
             />
           </div>
@@ -129,10 +132,18 @@ export default function ProvideService() {
             />
           </div>
 
+          <button
+            type="button"
+            onClick={() => getLiveLocation()}
+            className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 mb-2"
+          >
+            Get Live Location
+          </button>
+
           {/* Submit button */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
           >
             Register as Provider
           </button>
