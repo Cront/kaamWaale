@@ -1,8 +1,9 @@
 from datetime import datetime
 
-from config import db
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import ENUM
+
+from config import db
 
 GENDER_ENUM = ENUM("male", "female", name="gender_type")
 SERVICE_TYPE_ENUM = ENUM("peon", "maid", "driver", name="service_type")
@@ -54,9 +55,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(80), nullable=False)
-    middle_name = db.Column(db.String(80), nullable=True)
-    last_name = db.Column(db.String(80), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=True)
     house_address = db.Column(db.String(225), nullable=False)
     date_of_birth = db.Column(DateTime, nullable=False)
@@ -73,9 +72,7 @@ class User(db.Model):
     def to_json(self):
         return {
             "id": self.id,
-            "first_name": self.first_name,
-            "middle_name": self.middle_name,
-            "last_name": self.last_name,
+            "name": self.name,
             "email": self.email,
             "house_address": self.house_address,
             "date_of_birth": (
