@@ -1,7 +1,7 @@
 from flask import jsonify, request
 
-from config import app, db
-from models import ServiceProvider
+from app.config import app, db
+from app.models import ServiceProvider
 
 
 # TO DO: UPDATE JS TO MATCH SERVICE PROVIDER ATTRIBUTES
