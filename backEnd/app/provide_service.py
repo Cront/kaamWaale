@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from config import app, db
 from flask import jsonify, request
-from models import ServiceProvider
+from models import ServiceProvider, User
 
 
 @app.route("/get_service_provider", methods=["GET"])
@@ -8,7 +10,7 @@ def get_service_provider():
     service_providers = ServiceProvider.query.all()
     json_service_providers = list(map(lambda x: x.to_json(), service_providers))
 
-    return jsonify({"contacts": json_service_providers})
+    return jsonify({"service_providers": json_service_providers})
 
 
 # TO DO: UPDATE JS TO MATCH SERVICE PROVIDER ATTRIBUTES
@@ -41,14 +43,14 @@ def create_service_provider():
         return (jsonify({"message": "You must include your date of birth"}), 400)
 
     new_service_provider = ServiceProvider(
-        name,
-        service_provided,
-        address,
-        phone_number,
-        email,
-        date_of_birth,
-        rate,
-        gender,
+        name=name,
+        service_provided=service_provided,
+        address=address,
+        phone_number=phone_number,
+        email=email,
+        date_of_birth=datetime.fromisoformat(date_of_birth),
+        rate=rate,
+        gender=gender,
     )
 
     try:
