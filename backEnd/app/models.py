@@ -1,9 +1,8 @@
 from datetime import datetime
 
+from config import db
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import ENUM
-
-from config import db
 
 GENDER_ENUM = ENUM("male", "female", name="gender_type")
 SERVICE_TYPE_ENUM = ENUM("peon", "maid", "driver", name="service_type")
@@ -15,7 +14,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=True)
-    house_address = db.Column(db.String(225), nullable=False)
+    address = db.Column(db.String(225), nullable=False)
     date_of_birth = db.Column(DateTime, nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
     profile_picture = db.Column(db.String(225), nullable=True)
@@ -32,7 +31,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "email": self.email,
-            "house_address": self.house_address,
+            "address": self.address,
             "date_of_birth": (
                 self.date_of_birth.isoformat() if self.date_of_birth else None
             ),
