@@ -62,6 +62,20 @@ def create_service_provider():
     return jsonify({"message": "Service provider created!"}), 201
 
 
+@app.route("/delete_service_provider/<int:user_id>", methods=["DELETE"])
+def delete_service_provider(user_id):
+    # get service provider by their id
+    service_provider = ServiceProvider.query.get(user_id)
+
+    if not service_provider:
+        return jsonify({"message": "Service provider not found"}), 404
+
+    db.session.delete(service_provider)
+    db.session.commit()
+
+    return jsonify({"message": "Service provider deleted"}), 200
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
