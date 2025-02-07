@@ -10,17 +10,17 @@ import ReviewModal from "../reviews-page/page";
 import React from "react";
 
 // Interface defining the structure of a service provider object
-export interface ServiceProvider {
-  id: number;
-  name: string;
-  type: string;
-  location: string;
-  distance?: number; // DISTANCE FROM EMPLOYER TO EMPLOYEE, CALCULATE LATER
-  rating: number;
-  profilePicture: string;
-  phoneNumber: string;
-  numberOfReviews: number;
-}
+// export interface ServiceProvider {
+//   id: number;
+//   name: string;
+//   type: string;
+//   location: string;
+//   distance?: number; // DISTANCE FROM EMPLOYER TO EMPLOYEE, CALCULATE LATER
+//   rating: number;
+//   profilePicture: string;
+//   phoneNumber: string;
+//   numberOfReviews: number;
+// }
 
 // Define the Reviews interface
 export interface Reviews {
@@ -33,55 +33,43 @@ export interface Reviews {
 }
 
 // Mock function to simulate fetching data (replace with an actual API call in production)
-const fetchServiceProviders = (
-  type: string,
-  location: string,
-): ServiceProvider[] => {
-  return [
-    {
-      id: 1,
-      name: "Hasan Abidi",
-      type,
-      location: "",
-      rating: 8.1,
-      profilePicture: "hasanPfp.png",
-      phoneNumber: "(510)-766-9811",
-      numberOfReviews: 4,
-    },
-    {
-      id: 2,
-      name: "Filza Abidi",
-      type,
-      location,
-      rating: 9.4,
-      profilePicture: "filzaBajiPfp.png",
-      phoneNumber: "(309)-391-4247",
-      numberOfReviews: 5,
-    },
-    {
-      id: 3,
-      name: "Syed Abidi",
-      type,
-      location,
-      rating: 2.3,
-      profilePicture: "chotoBhaiPfp.png",
-      phoneNumber: "(309)-391-4356",
-      numberOfReviews: 4,
-    },
-  ];
-};
-
-const fetchServiceProvidersReal = async () => {
-  const response = await fetch("http://127.0.0.1:5000/get_service_provider");
-
-  if (!response.ok) {
-    throw new Error(`Error: ${response.status} - ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  console.log(data);
-  return data;
-};
+// const fetchServiceProviders = (
+//   type: string,
+//   location: string,
+// ): ServiceProvider[] => {
+//   return [
+//     {
+//       id: 1,
+//       name: "Hasan Abidi",
+//       type,
+//       location: "",
+//       rating: 8.1,
+//       profilePicture: "hasanPfp.png",
+//       phoneNumber: "(510)-766-9811",
+//       numberOfReviews: 4,
+//     },
+//     {
+//       id: 2,
+//       name: "Filza Abidi",
+//       type,
+//       location,
+//       rating: 9.4,
+//       profilePicture: "filzaBajiPfp.png",
+//       phoneNumber: "(309)-391-4247",
+//       numberOfReviews: 5,
+//     },
+//     {
+//       id: 3,
+//       name: "Syed Abidi",
+//       type,
+//       location,
+//       rating: 2.3,
+//       profilePicture: "chotoBhaiPfp.png",
+//       phoneNumber: "(309)-391-4356",
+//       numberOfReviews: 4,
+//     },
+//   ];
+// };
 
 // Fetch reviews based on the service provider's ID
 const fetchReviews = (serviceProviderId: number): Reviews[] => {
@@ -267,7 +255,7 @@ export default function Results() {
           <div key={provider.id} className="border rounded p-4 shadow">
             {/* Provider Profile Picture */}
             <img
-              src={provider.profilePicture || "/placeholder.svg"}
+              src={provider.profile_picture || "/placeholder.svg"}
               alt={`${provider.name}'s profile`}
               className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
             />

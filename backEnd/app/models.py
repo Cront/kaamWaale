@@ -1,8 +1,9 @@
 from datetime import datetime
 
-from config import db
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import ENUM
+
+from config import db
 
 GENDER_ENUM = ENUM("male", "female", name="gender_type")
 SERVICE_TYPE_ENUM = ENUM("peon", "maid", "driver", name="service_type")

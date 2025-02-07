@@ -11,7 +11,9 @@ export default function ProvideService() {
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
   const [serviceType, setServiceType] = useState("");
-  const [location, setLocation] = useState("");
+  const [date_of_birth, set_date_of_birth] = useState("");
+  const [gender, set_gender] = useState("");
+  // const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [rate, setRate] = useState("");
@@ -32,6 +34,8 @@ export default function ProvideService() {
     // In a real application, this would send the data to a server
     console.log("Service provider details:", {
       name,
+      date_of_birth,
+      gender,
       serviceType,
       location,
       phone,
@@ -58,6 +62,38 @@ export default function ProvideService() {
               onChange={(e) => setName(e.target.value)}
               className="w-full p-2 border rounded"
               placeholder="Full Name"
+              required
+            />
+          </div>
+
+          {/* Date of birth input */}
+          <div className="mb-4">
+            <label htmlFor="fullAddress" className="block mb-2 text-left">
+              Date of Birth
+            </label>
+            <input
+              type="text"
+              id="date_of_birth"
+              value={date_of_birth}
+              onChange={(e) => set_date_of_birth(e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Date of birth"
+              required
+            />
+          </div>
+
+          {/* Gender input */}
+          <div className="mb-4">
+            <label htmlFor="fullAddress" className="block mb-2 text-left">
+              Gender
+            </label>
+            <input
+              type="text"
+              id="gender"
+              value={gender}
+              onChange={(e) => set_gender(e.target.value)}
+              className="w-full p-2 border rounded"
+              placeholder="Gender"
               required
             />
           </div>

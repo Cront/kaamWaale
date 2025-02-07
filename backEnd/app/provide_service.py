@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from config import app, db
 from flask import jsonify, request
+
+from config import app, db
 from models import ServiceProvider, User
 
 
@@ -24,6 +25,7 @@ def create_service_provider():
     date_of_birth = request.json.get("date_of_birth")
     rate = request.json.get("rate")
     gender = request.json.get("gender")
+    profile_picture = request.json.get("profile_picture")
 
     if not name:
         return (jsonify({"message": "You must include your name"}), 400)
@@ -51,6 +53,7 @@ def create_service_provider():
         date_of_birth=datetime.fromisoformat(date_of_birth),
         rate=rate,
         gender=gender,
+        profile_picture=profile_picture
     )
 
     try:
