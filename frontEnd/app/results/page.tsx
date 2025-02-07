@@ -2,8 +2,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+
 import Layout from "../components/layout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ContactModal from "../contact-page/page";
 import ReviewModal from "../reviews-page/page";
 import React from "react";
@@ -68,6 +69,18 @@ const fetchServiceProviders = (
       numberOfReviews: 4,
     },
   ];
+};
+
+const fetchServiceProvidersReal = async () => {
+  const response = await fetch("http://127.0.0.1:5000/get_service_provider");
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  console.log(data);
+  return data;
 };
 
 // Fetch reviews based on the service provider's ID
@@ -195,7 +208,35 @@ export default function Results() {
   const fullAddress = searchParams.get("fullAddress") || "";
 
   // Fetch mock service providers data based on type and location
-  const serviceProviders = fetchServiceProviders(type, fullAddress);
+  // const serviceProviders = fetchServiceProviders(type, fullAddress);
+  // const service_providers_real = fetchServiceProvidersReal();
+
+  // use to set database data for service providers
+  const [service_providers, set_service_providers] = useState<any[]>([]);
+
+  // Fetch the data when the component loads
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:5000/get_service_provider",
+        );
+        const data = await response.json();
+        set_service_providers(data.service_providers); // Update state with real data
+      } catch (error) {
+        console.error("Error fetching service providers:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures this runs only on component mount
+
+  const filtered_service_providers = service_providers.filter(
+    (provider) =>
+      provider.service_provided.toLowerCase() === type.toLowerCase(),
+  );
+
+  console.log(service_providers);
 
   // State for modal visibility
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -222,7 +263,7 @@ export default function Results() {
       </h1>
       {/* Display service providers in a grid layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {serviceProviders.map((provider) => (
+        {filtered_service_providers.map((provider) => (
           <div key={provider.id} className="border rounded p-4 shadow">
             {/* Provider Profile Picture */}
             <img
@@ -232,7 +273,7 @@ export default function Results() {
             />
             {/* Provider Details */}
             <h2 className="text-xl font-semibold mb-2">{provider.name}</h2>
-            <p>Type: {provider.type}</p>
+            <p>Type: {provider.service_provided}</p>
             {/* CHANGE LATER TO GET THE DISTANCE FROM ADDRESS TO EMPLOYER */}
             <p>Distance: {provider.distance}</p>
             <p>
@@ -242,7 +283,7 @@ export default function Results() {
                 // href={"/reviews-page?user=${id}"} // ADJUST LINK TO REVIEWS PAGE
                 className="text-blue-600 underline hover:text-blue-800"
               >
-                ({provider.numberOfReviews} reviews)
+                ({provider.number_of_reviews_received} reviews)
               </span>
             </p>
             {/* Contact button */}

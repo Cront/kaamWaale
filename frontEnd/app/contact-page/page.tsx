@@ -21,7 +21,7 @@ const ContactModal: React.FC<ModalProps> = ({ isOpen, onClose, provider }) => {
         <h2 className="text-xl font-bold mb-4">Contact Information</h2>
         {/* Display selected provider's name and phone number */}
         <p className="mb-2">Name: {provider.name}</p>
-        <p className="mb-4">Phone Number: {provider.phoneNumber}</p>
+        <p className="mb-4">Phone Number: {provider.phone_number}</p>
         {/* Close button for the modal */}
         <button
           onClick={onClose}
