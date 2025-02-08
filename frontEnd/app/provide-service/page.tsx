@@ -90,7 +90,7 @@ export default function ProvideService() {
               Date of Birth
             </label>
             <input
-              type="text"
+              type="date"
               id="date_of_birth"
               value={date_of_birth}
               onChange={(e) => set_date_of_birth(e.target.value)}
