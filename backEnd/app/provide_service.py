@@ -13,6 +13,15 @@ def get_service_provider():
 
     return jsonify({"service_providers": json_service_providers})
 
+@app.route("/delete_all_sp", methods=["DELETE"])
+def delete_all_sp():
+    service_providers = ServiceProvider.query.all()
+    for service_provider in service_providers:
+        delete_service_provider(service_provider.id)
+
+    return jsonify({"message": "Service provideres deleted"}), 200
+
+
 
 # TO DO: UPDATE JS TO MATCH SERVICE PROVIDER ATTRIBUTES
 @app.route("/create_service_provider", methods=["POST"])
