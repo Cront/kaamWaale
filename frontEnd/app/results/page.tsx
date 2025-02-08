@@ -10,17 +10,17 @@ import ReviewModal from "../reviews-page/page";
 import React from "react";
 
 // Interface defining the structure of a service provider object
-// export interface ServiceProvider {
-//   id: number;
-//   name: string;
-//   type: string;
-//   location: string;
-//   distance?: number; // DISTANCE FROM EMPLOYER TO EMPLOYEE, CALCULATE LATER
-//   rating: number;
-//   profilePicture: string;
-//   phoneNumber: string;
-//   numberOfReviews: number;
-// }
+export interface ServiceProvider {
+  id: number;
+  name: string;
+  type: string;
+  location: string;
+  distance?: number; // DISTANCE FROM EMPLOYER TO EMPLOYEE, CALCULATE LATER
+  rating: number;
+  profilePicture: string;
+  phoneNumber: string;
+  numberOfReviews: number;
+}
 
 // Define the Reviews interface
 export interface Reviews {

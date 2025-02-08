@@ -8,40 +8,58 @@ import React from "react";
 
 export default function ProvideService() {
   // State for form inputs
-  const [address, setAddress] = useState("");
-  const [name, setName] = useState("");
-  const [serviceType, setServiceType] = useState("");
+  const [address, set_address] = useState("");
+  const [name, set_name] = useState("");
+  const [service_provided, set_service_provided] = useState("");
   const [date_of_birth, set_date_of_birth] = useState("");
   const [gender, set_gender] = useState("");
   // const [location, setLocation] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [rate, setRate] = useState("");
+  const [phone_number, set_phone_number] = useState("");
+  const [email, set_email] = useState("");
+  const [rate, set_rate] = useState("");
   const router = useRouter();
 
   const handleGetLiveLocation = async () => {
     try {
       const locationAddress = await getLiveLocation();
-      setAddress(locationAddress);
+      set_address(locationAddress);
     } catch (error) {
       console.error("Error getting live location", error);
     }
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, this would send the data to a server
-    console.log("Service provider details:", {
+
+    const data = {
       name,
       date_of_birth,
       gender,
-      serviceType,
-      location,
-      phone,
+      service_provided,
+      address,
+      phone_number,
       email,
-    });
-    router.push("/provider-confirmation");
+      rate,
+    };
+
+    const url = "http://127.0.0.1:5000/create_service_provider";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    const response = await fetch(url, options);
+
+    if (response.status !== 201 && response.status !== 200) {
+      const data = await response.json();
+      alert(data.message);
+    } else {
+      router.push("/provider-confirmation");
+    }
   };
 
   return (
@@ -59,7 +77,7 @@ export default function ProvideService() {
               type="text"
               id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => set_name(e.target.value)}
               className="w-full p-2 border rounded"
               placeholder="Full Name"
               required
@@ -68,7 +86,7 @@ export default function ProvideService() {
 
           {/* Date of birth input */}
           <div className="mb-4">
-            <label htmlFor="fullAddress" className="block mb-2 text-left">
+            <label htmlFor="date_of_birth" className="block mb-2 text-left">
               Date of Birth
             </label>
             <input
@@ -77,36 +95,38 @@ export default function ProvideService() {
               value={date_of_birth}
               onChange={(e) => set_date_of_birth(e.target.value)}
               className="w-full p-2 border rounded"
-              placeholder="Date of birth"
+              placeholder="Year-Month-Day"
               required
             />
           </div>
 
           {/* Gender input */}
           <div className="mb-4">
-            <label htmlFor="fullAddress" className="block mb-2 text-left">
+            <label htmlFor="gender" className="block mb-2 text-left">
               Gender
             </label>
-            <input
-              type="text"
+            <select
               id="gender"
               value={gender}
               onChange={(e) => set_gender(e.target.value)}
               className="w-full p-2 border rounded"
-              placeholder="Gender"
               required
-            />
+            >
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
           </div>
 
           {/* Service type selection */}
           <div className="mb-4">
-            <label htmlFor="serviceType" className="block mb-2 text-left">
+            <label htmlFor="service_type" className="block mb-2 text-left">
               Service Type:
             </label>
             <select
-              id="serviceType"
-              value={serviceType}
-              onChange={(e) => setServiceType(e.target.value)}
+              id="service_type"
+              value={service_provided}
+              onChange={(e) => set_service_provided(e.target.value)}
               className="w-full p-2 border rounded"
               required
             >
@@ -119,14 +139,14 @@ export default function ProvideService() {
 
           {/* Location input */}
           <div className="mb-4">
-            <label htmlFor="fullAddress" className="block mb-2 text-left">
+            <label htmlFor="full_address" className="block mb-2 text-left">
               Full Address (enter manually or click Get Live Location):
             </label>
             <input
               type="text"
-              id="fullAddress"
+              id="full_address"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => set_address(e.target.value)}
               className="w-full p-2 border rounded"
               placeholder="Full address"
               required
@@ -135,16 +155,16 @@ export default function ProvideService() {
 
           {/* Phone number input */}
           <div className="mb-4">
-            <label htmlFor="phone" className="block mb-2 text-left">
+            <label htmlFor="phone_number" className="block mb-2 text-left">
               Phone Number:
             </label>
             <input
               type="tel"
-              id="phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              id="phone_number"
+              value={phone_number}
+              onChange={(e) => set_phone_number(e.target.value)}
               className="w-full p-2 border rounded"
-              placeholder="Phone number"
+              placeholder="Phone Number"
               required
             />
           </div>
@@ -158,7 +178,7 @@ export default function ProvideService() {
               type="email"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => set_email(e.target.value)}
               className="w-full p-2 border rounded"
               placeholder="Email Address"
               required
@@ -174,7 +194,7 @@ export default function ProvideService() {
               type="rate"
               id="rate"
               value={rate}
-              onChange={(e) => setRate(e.target.value)}
+              onChange={(e) => set_rate(e.target.value)}
               className="w-full p-2 border rounded"
               placeholder="Rate"
               required

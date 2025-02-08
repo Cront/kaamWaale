@@ -11,9 +11,9 @@ export default function ProviderConfirmation() {
         <p className="text-xl mb-8">
           Your information has been submitted successfully.
         </p>
-        <p className="mb-8">
-          Our team will review your application and contact you soon.
-        </p>
+        {/* <p className="mb-8"> */}
+        {/*   Our team will review your application and contact you soon. */}
+        {/* </p> */}
         {/* Return to home button */}
         <Link
           href="/"
