@@ -19,7 +19,7 @@ def delete_all_sp():
     for service_provider in service_providers:
         delete_service_provider(service_provider.id)
 
-    return jsonify({"message": "Service provideres deleted"}), 200
+    return jsonify({"message": "All service providers deleted"}), 200
 
 
 

@@ -28,13 +28,13 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/about" className="hover:underline">
-                About
+              <Link href="/create-account" className="hover:underline">
+                Account
               </Link>
             </li>
             <li>
-              <Link href="/contact" className="hover:underline">
-                Contact
+              <Link href="/about" className="hover:underline">
+                About
               </Link>
             </li>
           </ul>
