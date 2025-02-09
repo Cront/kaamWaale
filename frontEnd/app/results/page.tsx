@@ -228,8 +228,7 @@ function Results() {
   }, []); // Empty dependency array ensures this runs only on component mount
 
   const filtered_service_providers = service_providers.filter(
-    (provider) =>
-      provider.service_provided.toLowerCase() === type.toLowerCase(),
+    (provider) => provider.service_type.toLowerCase() === type.toLowerCase(),
   );
 
   console.log(service_providers);

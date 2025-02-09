@@ -16,7 +16,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=True)
-    account_type = db.Column(db.String(120, nullable=False))
+    password = db.Column(db.String(120), nullable=True)
+    account_type = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(225), nullable=False)
     date_of_birth = db.Column(DateTime, nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
@@ -34,6 +35,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "email": self.email,
+            "password": self.password,
             "account_type": self.account_type,
             "address": self.address,
             "date_of_birth": (
@@ -51,7 +53,7 @@ class ServiceProvider(User):
     __tablename__ = "service_providers"
 
     id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
-    service_provided = db.Column(SERVICE_TYPE_ENUM, nullable=False)
+    service_type = db.Column(SERVICE_TYPE_ENUM, nullable=False)
     number_of_reviews_received = db.Column(db.Integer, default=0)
     distance = db.Column(db.Float, default=0.0)
     rating = db.Column(db.Float, default=0.0)
@@ -63,7 +65,7 @@ class ServiceProvider(User):
         base = super().to_json()
         base.update(
             {
-                "service_provided": self.service_provided,
+                "service_type": self.service_type,
                 "number_of_reviews_received": self.number_of_reviews_received,
                 "distance": self.distance,
                 "rating": self.rating,

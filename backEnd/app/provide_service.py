@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import jsonify, request
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from config import app, db
 from models import ServiceProvider, User
@@ -28,10 +29,11 @@ def delete_all_sp():
 def create_service_provider():
     name = request.json.get("name")
     account_type = "service_provider"
-    service_provided = request.json.get("service_provided")
+    service_type = request.json.get("service_type")
     address = request.json.get("address")
     phone_number = request.json.get("phone_number")
     email = request.json.get("email")
+    password = request.json.get("password")
     date_of_birth = request.json.get("date_of_birth")
     rate = request.json.get("rate")
     gender = request.json.get("gender")
@@ -39,7 +41,7 @@ def create_service_provider():
 
     if not name:
         return (jsonify({"message": "You must include your name"}), 400)
-    if not service_provided:
+    if not service_type:
         return (jsonify({"message": "You must include service type"}), 400)
     if not address:
         return (jsonify({"message": "You must include address"}), 400)
@@ -47,8 +49,8 @@ def create_service_provider():
         return (jsonify({"message": "You must include phone number"}), 400)
     if not email:
         return (jsonify({"message": "You must include email address"}), 400)
-    if not rate:
-        return (jsonify({"message": "You must include rate"}), 400)
+    # if not rate:
+    #     return (jsonify({"message": "You must include rate"}), 400)
     if not gender:
         return (jsonify({"message": "You must include your gender"}), 400)
     if not date_of_birth:
@@ -57,10 +59,11 @@ def create_service_provider():
     new_service_provider = ServiceProvider(
         name=name,
         account_type=account_type,
-        service_provided=service_provided,
+        service_type=service_type,
         address=address,
         phone_number=phone_number,
         email=email,
+        password=generate_password_hash(password),
         date_of_birth=datetime.fromisoformat(date_of_birth),
         rate=rate,
         gender=gender,

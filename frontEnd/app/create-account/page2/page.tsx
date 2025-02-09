@@ -9,12 +9,18 @@ import React from "react";
 export default function CreateAccountSecond() {
   // State for form inputs
   const [account_type, set_account_type] = useState("");
-  const [service_provided, set_service_provided] = useState("");
+  const [service_type, set_service_type] = useState("");
   const [email, set_email] = useState("");
   const [password, set_password] = useState("");
   const [confirm_password, set_confirm_password] = useState("");
   const [show_service_type, set_show_service_type] = useState(false);
   const router = useRouter();
+
+  const name = useSearchParams().get("name") || "";
+  const date_of_birth = useSearchParams().get("date_of_birth") || "";
+  const gender = useSearchParams().get("gender") || "";
+  const address = useSearchParams().get("address") || "";
+  const phone_number = useSearchParams().get("phone_number") || "";
 
   // const handleGetLiveLocation = async () => {
   //   try {
@@ -50,11 +56,19 @@ export default function CreateAccountSecond() {
       return;
     }
 
-    const name = useSearchParams().get("name") || "";
-    const date_of_birth = useSearchParams().get("date_of_birth") || "";
-    const gender = useSearchParams().get("gender") || "";
-    const address = useSearchParams().get("address") || "";
-    const phone_number = useSearchParams().get("phone_number") || "";
+    if (password.length < 8) {
+      alert(
+        "Password length too short. Please make password at least eight characters",
+      );
+      return;
+    }
+
+    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
+      alert(
+        "Password must have one lowercase character and one uppercase character",
+      );
+      return;
+    }
 
     const data = {
       name,
@@ -63,6 +77,7 @@ export default function CreateAccountSecond() {
       address,
       phone_number,
       account_type,
+      service_type,
       email,
       password,
     };
@@ -76,21 +91,27 @@ export default function CreateAccountSecond() {
       body: JSON.stringify(data),
     };
 
-    const response = await fetch(url, options);
+    try {
+      const response = await fetch(url, options);
 
-    if (response.status !== 201 && response.status !== 200) {
-      const data = await response.json();
-      alert(data.message);
-    } else {
-      router.push("/provider-confirmation");
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Server Error:", errorData);
+        alert("Server returned an error: " + errorData.message);
+      } else {
+        router.push("/provider-confirmation");
+      }
+    } catch (error) {
+      console.error("Fetch Error:", error);
+      alert("Failed to connect to the server. Please try again later.");
     }
   };
 
   return (
     <Layout>
       <div className="max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl font-bold mb-4">Create Account Step 2/3</h1>
-        <p className="text-xl mb-8">Some more information</p>
+        <h1 className="text-4xl font-bold mb-4">Create Account</h1>
+        <p className="text-xl mb-8">Almost done</p>
         <form onSubmit={handleSubmit} className="max-w-md mx-auto">
           {/* Name input */}
           <div className="mb-4">
@@ -118,8 +139,8 @@ export default function CreateAccountSecond() {
               </label>
               <select
                 id="service_type"
-                value={service_provided}
-                onChange={(e) => set_service_provided(e.target.value)}
+                value={service_type}
+                onChange={(e) => set_service_type(e.target.value)}
                 className="w-full p-2 border rounded"
                 required
               >
@@ -182,7 +203,7 @@ export default function CreateAccountSecond() {
             type="submit"
             className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
           >
-            Continue
+            Submit
           </button>
         </form>
       </div>
