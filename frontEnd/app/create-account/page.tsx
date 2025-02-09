@@ -6,14 +6,13 @@ import { getLiveLocation } from "../../utils/locationUtils";
 import Layout from "../components/layout";
 import React from "react";
 
-export default function ProvideService() {
+export default function CreateAccount() {
   // State for form inputs
-  const [address, set_address] = useState("");
   const [name, set_name] = useState("");
-  const [date_of_birth, set_date_of_birth] = useState("");
   const [gender, set_gender] = useState("");
+  const [address, set_address] = useState("");
+  const [date_of_birth, set_date_of_birth] = useState("");
   const [phone_number, set_phone_number] = useState("");
-  const [email, set_email] = useState("");
   const router = useRouter();
 
   const handleGetLiveLocation = async () => {
@@ -29,34 +28,33 @@ export default function ProvideService() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = {
+    const query_params = new URLSearchParams({
       name,
       date_of_birth,
       gender,
-      service_provided,
       address,
       phone_number,
-      email,
-      rate,
-    };
+    }).toString();
 
-    const url = "http://127.0.0.1:5000/create_service_provider"; // TO DO: UPDATE TO RIGHT PAGE
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
+    router.push(`/create-account/page2?${query_params}`);
 
-    const response = await fetch(url, options);
+    // const url = "http://127.0.0.1:5000/create_service_provider";
+    // const options = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // };
 
-    if (response.status !== 201 && response.status !== 200) {
-      const data = await response.json();
-      alert(data.message);
-    } else {
-      router.push("/provider-confirmation"); // TO DO: UPDATE THIS TO CORRECT PAGE
-    }
+    // const response = await fetch(url, options);
+
+    // if (response.status !== 201 && response.status !== 200) {
+    //   const data = await response.json();
+    //   alert(data.message);
+    // } else {
+    //   router.push("/provider-confirmation"); // TO DO: UPDATE THIS TO CORRECT PAGE
+    // }
   };
 
   return (
@@ -81,21 +79,39 @@ export default function ProvideService() {
             />
           </div>
 
-          {/* Email input */}
+          {/* Gender input */}
           <div className="mb-4">
-            <label htmlFor="email" className="block mb-2 text-left">
-              Email Address:
+            <label htmlFor="gender" className="block mb-2 text-left">
+              Gender
             </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => set_email(e.target.value)}
+            <select
+              id="gender"
+              value={gender}
+              onChange={(e) => set_gender(e.target.value)}
               className="w-full p-2 border rounded"
-              placeholder="Email Address"
               required
-            />
+            >
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
           </div>
+
+          {/* Email input */}
+          {/* <div className="mb-4"> */}
+          {/*   <label htmlFor="email" className="block mb-2 text-left"> */}
+          {/*     Email Address: */}
+          {/*   </label> */}
+          {/*   <input */}
+          {/*     type="email" */}
+          {/*     id="email" */}
+          {/*     value={email} */}
+          {/*     onChange={(e) => set_email(e.target.value)} */}
+          {/*     className="w-full p-2 border rounded" */}
+          {/*     placeholder="Email Address" */}
+          {/*     required */}
+          {/*   /> */}
+          {/* </div> */}
 
           {/* Location input */}
           <div className="mb-4">
@@ -145,24 +161,6 @@ export default function ProvideService() {
             />
           </div>
 
-          {/* Gender input */}
-          <div className="mb-4">
-            <label htmlFor="gender" className="block mb-2 text-left">
-              Gender
-            </label>
-            <select
-              id="gender"
-              value={gender}
-              onChange={(e) => set_gender(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            >
-              <option value="">Select gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-
           <button
             type="button"
             onClick={() => handleGetLiveLocation()}
@@ -176,7 +174,7 @@ export default function ProvideService() {
             type="submit"
             className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
           >
-            Register as Provider
+            Continue
           </button>
         </form>
       </div>

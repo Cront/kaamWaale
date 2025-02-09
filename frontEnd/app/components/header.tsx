@@ -29,7 +29,7 @@ export default function Header() {
             </li>
             <li>
               <Link href="/create-account" className="hover:underline">
-                Account
+                Create Account
               </Link>
             </li>
             <li>

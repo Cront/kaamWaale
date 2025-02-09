@@ -27,6 +27,7 @@ def delete_all_sp():
 @app.route("/create_service_provider", methods=["POST"])
 def create_service_provider():
     name = request.json.get("name")
+    account_type = "service_provider"
     service_provided = request.json.get("service_provided")
     address = request.json.get("address")
     phone_number = request.json.get("phone_number")
@@ -55,6 +56,7 @@ def create_service_provider():
 
     new_service_provider = ServiceProvider(
         name=name,
+        account_type=account_type,
         service_provided=service_provided,
         address=address,
         phone_number=phone_number,

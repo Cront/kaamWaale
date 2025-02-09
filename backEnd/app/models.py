@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import ENUM
 from config import db
 
 GENDER_ENUM = ENUM("male", "female", name="gender_type")
+ACCOUNT_TYPE_ENUM = ENUM("service_provider", "job_seeker", name="account_type")
 SERVICE_TYPE_ENUM = ENUM("peon", "maid", "driver", name="service_type")
 
 
@@ -15,6 +16,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=True)
+    account_type = db.Column(db.String(120, nullable=False))
     address = db.Column(db.String(225), nullable=False)
     date_of_birth = db.Column(DateTime, nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
@@ -32,6 +34,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "email": self.email,
+            "account_type": self.account_type,
             "address": self.address,
             "date_of_birth": (
                 self.date_of_birth.isoformat() if self.date_of_birth else None

@@ -4,7 +4,7 @@
 import { useSearchParams } from "next/navigation";
 
 import Layout from "../components/layout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import ContactModal from "../contact-page/page";
 import ReviewModal from "../reviews-page/page";
 import React from "react";
@@ -189,7 +189,15 @@ const fetchReviews = (serviceProviderId: number): Reviews[] => {
   return allReviews.filter((review) => review.id === serviceProviderId);
 };
 
-export default function Results() {
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <Results />
+    </Suspense>
+  );
+}
+
+function Results() {
   // Extract search parameters from the URL
   const searchParams = useSearchParams();
   const type = searchParams.get("type") || "";
