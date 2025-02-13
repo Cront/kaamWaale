@@ -15,16 +15,16 @@ def get_job_seekers():
     return jsonify({"job_seekers": json_job_seekers})
 
 
-@app.route("/delete_all_sp", methods=["DELETE"])
+@app.route("/delete_all_job_seekers", methods=["DELETE"])
 def delete_all_sp():
     job_seekers = JobSeeker.query.all()
     for job_seeker in job_seekers:
-        delete_job_seekers(job_seeker.id)
+        delete_job_seeker(job_seeker.id)
 
     return jsonify({"message": "All job seekers deleted"}), 200
 
-@app.route("/delete_job_seekers/<int:user_id>", methods=["DELETE"])
-def delete_job_seekers(user_id):
+@app.route("/delete_job_seeker/<int:user_id>", methods=["DELETE"])
+def delete_job_seeker(user_id):
     # get service provider by their id
     job_seeker = JobSeeker.query.get(user_id)
 
@@ -80,3 +80,8 @@ def create_job_seeker():
         return jsonify({"message": str(e)}), 400
 
     return jsonify({"message": "Job seeker created!"}), 201
+
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)

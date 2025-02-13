@@ -80,12 +80,10 @@ class JobSeeker(User):
     __tablename__ = "job_seekers"
 
     id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
-    service_type = db.Column(SERVICE_TYPE_ENUM, nullable=False)
 
     __mapper_args__ = {"polymorphic_identity": "job_seeker"}
 
     def to_json(self):
         base = super().to_json()
-        base.update({"service_type": self.service_type})
 
         return base
