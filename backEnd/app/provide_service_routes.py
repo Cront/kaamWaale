@@ -4,7 +4,7 @@ from flask import jsonify, request
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from config import app, db
-from models import ServiceProvider, User
+from models import ServiceProvider
 
 
 @app.route("/get_service_provider", methods=["GET"])
