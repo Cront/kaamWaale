@@ -23,8 +23,6 @@ def delete_all_sp():
     return jsonify({"message": "All service providers deleted"}), 200
 
 
-
-# TO DO: UPDATE JS TO MATCH SERVICE PROVIDER ATTRIBUTES
 @app.route("/create_service_provider", methods=["POST"])
 def create_service_provider():
     name = request.json.get("name")
