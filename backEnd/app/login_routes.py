@@ -1,9 +1,14 @@
-from flask import jsonify, request
+from flask import Blueprint, jsonify, request
 from werkzeug.security import check_password_hash
 
 from config import app, db
 from models import ServiceProvider, User
 
+login_bp = Blueprint('login_bp', __name__)
+
+@login_bp.route('/login_bp')
+def login_home():
+    return "Login Home"
 
 @app.route("/login", methods=["POST"])
 def login():

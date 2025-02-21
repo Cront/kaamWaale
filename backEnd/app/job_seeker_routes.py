@@ -1,11 +1,16 @@
 from datetime import datetime
 
-from flask import jsonify, request
+from flask import Blueprint, jsonify, request
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from config import app, db
 from models import JobSeeker
 
+job_seeker_bp = Blueprint('job_seeker_bp', __name__)
+
+@job_seeker_bp.route('/job_seeker_bp')
+def job_seeker_home():
+    return "Job Seeker Home"
 
 @app.route("/get_job_seekers", methods=["GET"])
 def get_job_seekers():

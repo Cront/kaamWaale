@@ -1,11 +1,16 @@
 from datetime import datetime
 
-from flask import jsonify, request
+from flask import Blueprint, jsonify, request
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from config import app, db
 from models import ServiceProvider
 
+provide_service_bp = Blueprint('provide_service_bp', __name__)
+
+@provide_service_bp.route('/provide_service_bp')
+def provide_service_home():
+    return "Provide Service Home"
 
 @app.route("/get_service_provider", methods=["GET"])
 def get_service_provider():

@@ -3,8 +3,8 @@ import "./globals.css";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
+  title: "KaamWala",
+  // description: "Created with v0",
 };
 
 export default function RootLayout({
