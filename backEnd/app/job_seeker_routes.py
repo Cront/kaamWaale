@@ -21,7 +21,7 @@ def get_job_seekers():
 
 
 @app.route("/delete_all_job_seekers", methods=["DELETE"])
-def delete_all_sp():
+def delete_all_jp():
     job_seekers = JobSeeker.query.all()
     for job_seeker in job_seekers:
         delete_job_seeker(job_seeker.id)
