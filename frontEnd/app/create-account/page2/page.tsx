@@ -82,28 +82,54 @@ export default function CreateAccountSecond() {
       password,
     };
 
-    const url = "http://127.0.0.1:5000/create_service_provider";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
+    if (account_type === "service_provider") {
+      const url = "http://127.0.0.1:5000/create_service_provider";
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      };
 
-    try {
-      const response = await fetch(url, options);
+      try {
+        const response = await fetch(url, options);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Server Error:", errorData);
-        alert("Server returned an error: " + errorData.message);
-      } else {
-        router.push("/provider-confirmation");
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Server Error:", errorData);
+          alert("Server returned an error: " + errorData.message);
+        } else {
+          router.push("/provider-confirmation");
+        }
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        alert("Failed to connect to the server. Please try again later.");
       }
-    } catch (error) {
-      console.error("Fetch Error:", error);
-      alert("Failed to connect to the server. Please try again later.");
+    } else {
+      const url = "http://127.0.0.1:5000/create_job_seeker";
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      };
+
+      try {
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Server Error:", errorData);
+          alert("Server returned an error: " + errorData.message);
+        } else {
+          router.push("/provider-confirmation");
+        }
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        alert("Failed to connect to the server. Please try again later.");
+      }
     }
   };
 

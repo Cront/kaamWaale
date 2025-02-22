@@ -7,7 +7,7 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo/Home link */}
         <Link href="/" className="text-2xl font-bold">
-          KaamWala
+          Deez
         </Link>
         {/* Navigation menu */}
         <nav>

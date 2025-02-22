@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from werkzeug.security import check_password_hash
+from werkzeug import security
 
 from config import app, db
 from models import ServiceProvider, User
@@ -25,7 +25,7 @@ def login():
     if not user:
         return (jsonify({"message": "User not found"}))
 
-    if not user.check_password_hash(user.password, original_password):
+    if not security.check_password_hash(user.password, original_password):
         return (jsonify({"message": "Incorrect password"}))
 
     return jsonify({"message": "Successfully found email and password"})
