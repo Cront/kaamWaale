@@ -28,7 +28,10 @@ def login():
     if not security.check_password_hash(user.password, original_password):
         return (jsonify({"message": "Incorrect password"}))
 
-    return jsonify({"message": "Successfully found email and password"})
+    return jsonify({
+        "message": "Successfully found email and password",
+        "data": user.account_type
+    })
 
 if __name__ == "__main__":
     with app.app_context():
