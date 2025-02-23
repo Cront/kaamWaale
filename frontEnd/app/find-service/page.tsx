@@ -20,6 +20,7 @@ export default function FindService() {
 
   const handleGetLiveLocation = async () => {
     try {
+      console.error("Trying to get location");
       const locationAddress = await getLiveLocation();
       setAddress(locationAddress);
     } catch (error) {

@@ -26,7 +26,7 @@ export default function FindService() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data), // data being sent to server
     };
 
     try {
@@ -38,7 +38,13 @@ export default function FindService() {
         alert("Server returned an error: " + errorData.message);
       } else {
         alert("Logged in!");
-        router.push("/");
+        const user_account = await response.json();
+
+        if (user_account === "service_provider") {
+          // TODO: different login for service_provider
+        } else {
+          // TODO: different login for job_seeker
+        }
       }
     } catch (error) {
       console.error("Fetch Error:", error);

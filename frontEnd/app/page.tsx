@@ -7,7 +7,7 @@ export default function Home() {
     <Layout>
       <div className="max-w-4xl mx-auto text-center">
         {/* Main heading */}
-        <h1 className="text-4xl font-bold mb-4">Welcome to Deez</h1>
+        <h1 className="text-4xl font-bold mb-4">Welcome to KaamWala</h1>
         {/* Subheading */}
         <p className="text-xl mb-8">Choose your role:</p>
         {/* Container for action buttons */}

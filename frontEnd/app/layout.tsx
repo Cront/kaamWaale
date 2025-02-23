@@ -3,7 +3,7 @@ import "./globals.css";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Deez",
+  title: "KaamWala",
   // description: "Created with v0",
 };
 
