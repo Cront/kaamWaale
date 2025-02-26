@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import Layout from "../components/layout";
 import { useState, useEffect, Suspense } from "react";
+import { get_lat_log } from "../../utils/locationUtils";
 import ContactModal from "../contact-page/page";
 import ReviewModal from "../reviews-page/page";
 import React from "react";
@@ -201,7 +202,7 @@ function Results() {
   // Extract search parameters from the URL
   const searchParams = useSearchParams();
   const type = searchParams.get("type") || "";
-  const fullAddress = searchParams.get("fullAddress") || "";
+  const jsFullAddress = searchParams.get("fullAddress") || "";
 
   // Fetch mock service providers data based on type and location
   // const serviceProviders = fetchServiceProviders(type, fullAddress);
@@ -209,6 +210,10 @@ function Results() {
 
   // use to set database data for service providers
   const [service_providers, set_service_providers] = useState<any[]>([]);
+  const [sp_lng, set_sp_lng] = useState("");
+  const [sp_lat, set_sp_lat] = useState("");
+  const [js_lng, set_js_lng] = useState("");
+  const [js_lat, set_js_lat] = useState("");
 
   // Fetch the data when the component loads
   useEffect(() => {
@@ -218,20 +223,36 @@ function Results() {
           "http://127.0.0.1:5000/get_service_provider",
         );
         const data = await response.json();
+        // console.log(data.service_providers);
         set_service_providers(data.service_providers); // Update state with real data
       } catch (error) {
         console.error("Error fetching service providers:", error);
       }
     };
 
+    const get_coords = async () => {
+      try {
+        set_js_lat(get_lat_log(jsFullAddress)[0]);
+        set_js_lng(get_lat_log(jsFullAddress)[1]);
+        set_sp_lat(get_lat_log(service_providers.address)[0]);
+        set_sp_lng(get_lat_log(service_providers.address)[1]);
+      } catch (error) {
+        console.error(
+          "Error getting coordinates for job seeker and service provider",
+          error,
+        );
+      }
+    };
+
     fetchData();
+    get_coords();
   }, []); // Empty dependency array ensures this runs only on component mount
 
   const filtered_service_providers = service_providers.filter(
     (provider) => provider.service_type.toLowerCase() === type.toLowerCase(),
   );
 
-  console.log(service_providers);
+  // console.log(service_providers);
 
   // State for modal visibility
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -254,7 +275,7 @@ function Results() {
   return (
     <Layout>
       <h1 className="text-3xl font-bold mb-4">
-        Results for {type || "types"}s near {fullAddress || "location error"}
+        Results for {type || "types"}s near {jsFullAddress || "location error"}
       </h1>
       {/* Display service providers in a grid layout */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -266,11 +287,8 @@ function Results() {
               alt={`${provider.name}'s profile`}
               className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
             />
-            {/* Provider Details */}
-            <h2 className="text-xl font-semibold mb-2">{provider.name}</h2>
-            <p>Type: {provider.service_provided}</p>
             {/* CHANGE LATER TO GET THE DISTANCE FROM ADDRESS TO EMPLOYER */}
-            <p>Distance: {provider.distance}</p>
+            <p>Distance: {}</p>
             <p>
               Rating: {provider.rating}/10{" "}
               <span
