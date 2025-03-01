@@ -42,20 +42,27 @@ export const getLiveLocation = async (): Promise<string> => {
   });
 };
 
-export const get_lat_long = async (address) => {
-  const api_key = "AIzaSyDyezdJfN8YVgq52EaCOWVTNQg8cTYZM44";
-  const encode_address = encodeURIComponent(address); // encodeURIComponent() allows to send thru URL
-  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encode_address}&key=${api_key}`;
+const getDistanceBetweenAddresses = async (origin, destination) => {
+  const apiKey = "AIzaSyDyezdJfN8YVgq52EaCOWVTNQg8cTYZM44";
 
-  const response = UrlFetchApp.fetch(url); // makes an HTTP request to given URL, returns raw data returned
-  const data = JSON.parse(response.getContentText()); // converts HTTP to string then JS obj
+  // URL connecting to distancematrix method of Google API
+  // Takes origin and distance as param args
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(
+    origin,
+  )}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
-  if (data.status === "OK") {
-    // data contains array of formatted_address, location_type, "place_id"
-    // results contains the formated address, and lat / lng in an location object in a geometry obj
-    const location = data.results[0].geometry.location;
-    return [location.lat, location.lng]; // returns coords as an array
-  } else {
-    return { Error: "Invalid address" };
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.status === "OK") {
+      const distance = data.rows[0].elements[0].distance.text;
+      console.log(`Distance: ${distance}`);
+      return distance;
+    } else {
+      throw new Error("Error fetching distance data");
+    }
+  } catch (error) {
+    console.error("Error:", error);
   }
 };
