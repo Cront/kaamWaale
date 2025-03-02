@@ -42,7 +42,7 @@ export const getLiveLocation = async (): Promise<string> => {
   });
 };
 
-const getDistanceBetweenAddresses = async (origin, destination) => {
+export const get_distance_between_addresses = async (origin, destination) => {
   const apiKey = "AIzaSyDyezdJfN8YVgq52EaCOWVTNQg8cTYZM44";
 
   // URL connecting to distancematrix method of Google API
@@ -56,6 +56,8 @@ const getDistanceBetweenAddresses = async (origin, destination) => {
     const data = await response.json();
 
     if (data.status === "OK") {
+      // JSON response array with origin, destination
+      // rows with array within it with elements and eleemnts within it with distance and duration and status
       const distance = data.rows[0].elements[0].distance.text;
       console.log(`Distance: ${distance}`);
       return distance;
