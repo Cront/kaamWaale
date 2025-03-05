@@ -1,12 +1,16 @@
+import json
 from datetime import datetime
 
-from flask import Blueprint, jsonify, request
+import requests
+from flask import Blueprint, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from config import app, db
-from models import ServiceProvider
+from models import JobSeeker, ServiceProvider
 
 provide_service_bp = Blueprint('provide_service_bp', __name__)
+
+GOOGLE_API_KEY = "AIzaSyDyezdJfN8YVgq52EaCOWVTNQg8cTYZM44"
 
 @provide_service_bp.route('/provide_service_bp')
 def provide_service_home():
@@ -93,8 +97,35 @@ def delete_service_provider(user_id):
     db.session.delete(service_provider)
     db.session.commit()
 
+
     return jsonify({"message": "Service provider deleted"}), 200
 
+@app.route("/getDistance/<int:jobSeekerID>/<int:serviceProviderID>", methods=["GET"])
+def getDistance(jobSeekerID, serviceProviderID):
+    jobSeeker = JobSeeker.query.get(jobSeekerID)
+    serviceProvider = ServiceProvider.query.get(serviceProviderID)
+
+    if not jobSeeker:
+        return jsonify({"error": f"JobSeeker with ID {jobSeekerID} not found"}), 404
+    if not serviceProvider:
+        return jsonify({"error": f"ServiceProvider with ID {serviceProviderID} not found"}), 404
+
+    jobSeekerLocation = jobSeeker.address
+    serviceProviderLocation = serviceProvider.address
+
+    url = f"https://maps.googleapis.com/maps/api/distancematrix/json?origins={jobSeekerLocation}&destinations={serviceProviderLocation}&key={GOOGLE_API_KEY}" 
+
+    try:
+        response = requests.get(url)
+        data = response.json()
+
+        if data["status"] == "OK":
+            distance = data["rows"][0]["elements"][0]["distance"]["text"]
+            print(json.dumps(data, indent=2))
+            return jsonify({"distance": distance})
+    except Exception as e:
+        print(json.dumps(data, indent=2))
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     with app.app_context():
