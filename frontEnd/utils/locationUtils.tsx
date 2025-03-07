@@ -42,28 +42,31 @@ export const getLiveLocation = async (): Promise<string> => {
   });
 };
 
-export const get_distance_between_addresses = async (origin, destination) => {
-  const apiKey = "AIzaSyDyezdJfN8YVgq52EaCOWVTNQg8cTYZM44";
+export const get_distance_between_addresses = async (
+  jobSeekerAddress: string,
+  serviceProviderAddress: string,
+) => {
+  // encodeURI is used to safely encode the email strings for use in a URL
+  const url = `http://127.0.0.1:5000/getDistance/${encodeURI(jobSeekerAddress)}/${encodeURI(serviceProviderAddress)}`;
 
-  // URL connecting to distancematrix method of Google API
-  // Takes origin and distance as param args
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(
-    origin,
-  )}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
+  // Define options for the fetch request
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
 
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    const response = await fetch(url, options);
 
-    if (data.status === "OK") {
-      // JSON response array with origin, destination
-      // rows with array within it with elements and eleemnts within it with distance and duration and status
-      const distance = data.rows[0].elements[0].distance.text;
-      console.log(`Distance: ${distance}`);
-      return distance;
-    } else {
-      throw new Error("Error fetching distance data");
+    if (!response.ok) {
+      throw new Error(`HTTPS error! status: $(response.status)`);
     }
+
+    // Parse data from JSON result
+    const data = await response.json();
+    return data.distance;
   } catch (error) {
     console.error("Error:", error);
   }

@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import Layout from "../components/layout";
 import { useState, useEffect, Suspense } from "react";
-import { get_lat_log } from "../../utils/locationUtils";
+import { get_distance_between_addresses } from "../../utils/locationUtils";
 import ContactModal from "../contact-page/page";
 import ReviewModal from "../reviews-page/page";
 import React from "react";
@@ -210,10 +210,6 @@ function Results() {
 
   // use to set database data for service providers
   const [service_providers, set_service_providers] = useState<any[]>([]);
-  const [sp_lng, set_sp_lng] = useState("");
-  const [sp_lat, set_sp_lat] = useState("");
-  const [js_lng, set_js_lng] = useState("");
-  const [js_lat, set_js_lat] = useState("");
 
   // Fetch the data when the component loads
   useEffect(() => {
@@ -230,22 +226,7 @@ function Results() {
       }
     };
 
-    const get_coords = async () => {
-      try {
-        set_js_lat(get_lat_log(jsFullAddress)[0]);
-        set_js_lng(get_lat_log(jsFullAddress)[1]);
-        set_sp_lat(get_lat_log(service_providers.address)[0]);
-        set_sp_lng(get_lat_log(service_providers.address)[1]);
-      } catch (error) {
-        console.error(
-          "Error getting coordinates for job seeker and service provider",
-          error,
-        );
-      }
-    };
-
     fetchData();
-    get_coords();
   }, []); // Empty dependency array ensures this runs only on component mount
 
   const filtered_service_providers = service_providers.filter(
@@ -287,8 +268,12 @@ function Results() {
               alt={`${provider.name}'s profile`}
               className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
             />
+            <div className="text-2xl font-semibold mb-1">{provider.name}</div>
             {/* CHANGE LATER TO GET THE DISTANCE FROM ADDRESS TO EMPLOYER */}
-            <p>Distance: {}</p>
+            <p>
+              Distance:{" "}
+              {get_distance_between_addresses(jsFullAddress, provider.address)}
+            </p>
             <p>
               Rating: {provider.rating}/10{" "}
               <span

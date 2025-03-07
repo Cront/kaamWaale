@@ -2,11 +2,10 @@ import json
 from datetime import datetime
 
 import requests
-from flask import Blueprint, jsonify
-from werkzeug.security import check_password_hash, generate_password_hash
-
 from config import app, db
+from flask import Blueprint, jsonify, request
 from models import JobSeeker, ServiceProvider
+from werkzeug.security import check_password_hash, generate_password_hash
 
 provide_service_bp = Blueprint('provide_service_bp', __name__)
 
@@ -100,20 +99,20 @@ def delete_service_provider(user_id):
 
     return jsonify({"message": "Service provider deleted"}), 200
 
-@app.route("/getDistance/<int:jobSeekerID>/<int:serviceProviderID>", methods=["GET"])
-def getDistance(jobSeekerID, serviceProviderID):
-    jobSeeker = JobSeeker.query.get(jobSeekerID)
-    serviceProvider = ServiceProvider.query.get(serviceProviderID)
+@app.route("/getDistance/<string:jobSeekerAddress>/<string:serviceProviderAddress>", methods=["GET"])
+def getDistance(jobSeekerAddress, serviceProviderAddress):
+    # jobSeeker = JobSeeker.query.get(jobSeekerEmail)
+    # serviceProvider = ServiceProvider.query.get(serviceProviderEmail)
+    #
+    # if not jobSeeker:
+    #     return jsonify({"error": f"JobSeeker with ID {jobSeekerEmail} not found"}), 404
+    # if not serviceProvider:
+    #     return jsonify({"error": f"ServiceProvider with ID {serviceProviderEmail} not found"}), 404
+    #
+    # jobSeekerLocation = jobSeeker.address
+    # serviceProviderLocation = serviceProvider.address
 
-    if not jobSeeker:
-        return jsonify({"error": f"JobSeeker with ID {jobSeekerID} not found"}), 404
-    if not serviceProvider:
-        return jsonify({"error": f"ServiceProvider with ID {serviceProviderID} not found"}), 404
-
-    jobSeekerLocation = jobSeeker.address
-    serviceProviderLocation = serviceProvider.address
-
-    url = f"https://maps.googleapis.com/maps/api/distancematrix/json?origins={jobSeekerLocation}&destinations={serviceProviderLocation}&key={GOOGLE_API_KEY}" 
+    url = f"https://maps.googleapis.com/maps/api/distancematrix/json?origins={jobSeekerAddress}&destinations={serviceProviderAddress}&key={GOOGLE_API_KEY}" 
 
     try:
         response = requests.get(url)
@@ -121,7 +120,7 @@ def getDistance(jobSeekerID, serviceProviderID):
 
         if data["status"] == "OK":
             distance = data["rows"][0]["elements"][0]["distance"]["text"]
-            print(json.dumps(data, indent=2))
+            # print(json.dumps(data, indent=2))
             return jsonify({"distance": distance})
     except Exception as e:
         print(json.dumps(data, indent=2))
