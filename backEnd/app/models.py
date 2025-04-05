@@ -1,3 +1,7 @@
+"""
+This file is some models for my KaamWala project 
+"""
+
 from datetime import datetime
 
 from sqlalchemy import DateTime
