@@ -42,8 +42,12 @@ export default function FindService() {
 
         if (user_account === "service_provider") {
           // TODO: different login for service_provider
+          console.log(user_account);
         } else {
+          console.log(user_account);
           // TODO: different login for job_seeker
+          // router.push(`/job_seeker/page?user_account=${user_account}`);
+          router.push("/job-seeker");
         }
       }
     } catch (error) {

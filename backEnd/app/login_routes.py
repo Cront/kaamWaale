@@ -17,16 +17,16 @@ def login():
     original_password = data.get("original_password")
 
     if not email:
-        return (jsonify({"message": "You must include your email"}))
+        return (jsonify({"message": "You must include your email"}), 400) 
     if not original_password:
-        return (jsonify({"message": "You must include your password"}))
+        return (jsonify({"message": "You must include your password"}), 400) 
 
     user = User.query.filter_by(email=email).first()
     if not user:
-        return (jsonify({"message": "User not found"}))
+        return (jsonify({"message": "User not found"}), 404)
 
     if not security.check_password_hash(user.password, original_password):
-        return (jsonify({"message": "Incorrect password"}))
+        return (jsonify({"message": "Incorrect password"}), 401)
 
     return jsonify({
         "message": "Successfully found email and password",
